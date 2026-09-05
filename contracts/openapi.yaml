@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Template API (gateway contract)
+  version: 0.1.0
+  description: >
+    HTTP contracts exposed via Gateway / DevGateway for the template microservice.
+servers:
+  - url: http://localhost:8082
+    description: Local DevGateway
+paths:
+  /api/template/Items:
+    get:
+      operationId: listItems
+      summary: List items
+      responses:
+        '200':
+          description: ItemDto array
+  /api/template/Items/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      operationId: getItem
+      summary: Item by id
+      responses:
+        '200':
+          description: ItemDto
+  /api/health:
+    get:
+      operationId: health
+      summary: DevGateway health
+      responses:
+        '200':
+          description: Healthy

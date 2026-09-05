@@ -1,0 +1,9 @@
+{
+  "remoteName": "template",
+  "expose": "./Routes",
+  "routePrefix": "/template",
+  "remoteEntryDev": "http://localhost:4202/remoteEntry.json",
+  "resources": [
+    { "type": "DATA", "name": "Items", "actions": ["List", "Get"] }
+  ]
+}
