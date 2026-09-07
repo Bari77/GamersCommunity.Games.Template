@@ -15,6 +15,22 @@ Identity baked into this tree: Pascal `Template`, id/kebab/camel `template`, que
 - `compose.yml` — game-full stack (Rabbit + SQL + consumer + DevGateway)
 - `contracts/` — federation + OpenAPI
 
+## Platform identity (mandatory in every game)
+
+Platform broadcasts user identity changes on the shared fanout exchange `platform_events`. Each game
+binds **its own** queue to it — `platform_events_<microserviceId>` — and mirrors the payload into its
+local `PlatformUserSnapshot` table. Queries then join that table instead of calling Platform.
+
+Two rules:
+
+- A queue delivers each message to a single consumer, so games must never share one — hence the
+  per-game queue name. The publisher stays unaware of them, adding a game requires no Platform change.
+- Replicate display data only (nickname, discriminator, avatar). Roles, bans and mutes stay at their
+  source of truth and must never be read from the snapshot.
+
+When renaming the template, set `MicroserviceId` in `Template.Consumer/Integration/PlatformEventsSubscriber.cs`
+to the game id declared in the gateway routing.
+
 ## GitHub Packages auth (once)
 
 ```powershell

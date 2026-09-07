@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Template.Consumer.Configuration;
+using Template.Consumer.Integration;
 using Template.Consumer.Services.Infra;
 using Template.Database.Context;
 
@@ -48,6 +49,7 @@ public class Program
                     services.AddScoped<BusRouter>();
                     services.AddScoped<TemplateServiceConsumer>();
                     services.AddHostedService<ConsumerWorker>();
+                    services.AddHostedService<PlatformEventsSubscriber>();
                 });
 
             var host = builder.Build();
