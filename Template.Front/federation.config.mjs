@@ -20,6 +20,7 @@ export default withNativeFederation({
     ),
   },
   skip: [
+    '@bari77/gc-theme',
     'rxjs/ajax', 'rxjs/fetch', 'rxjs/testing', 'rxjs/webSocket',
     '@angular/cdk/schematics', 'zone.js/node', 'zone.js/testing',
     '@angular/cli', '@angular/build', '@angular/compiler-cli',
