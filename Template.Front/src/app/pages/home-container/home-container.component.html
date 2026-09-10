@@ -1,14 +1,20 @@
 <nb-card>
-  <nb-card-header>Template Items</nb-card-header>
-  <nb-card-body>
-    @if (loading()) {
-      <div [nbSpinner]="true"></div>
-    } @else {
-      <ul>
-        @for (item of list(); track item.id) {
-          <li>{{ item.entitled }}</li>
+    <nb-card-header>Template Items</nb-card-header>
+    <nb-card-body>
+        @if (loading()) {
+            <ul class="item-list" aria-busy="true">
+                @for (row of rowPlaceholders; track row) {
+                    <li class="item-row item-row--skeleton">
+                        <gc-skeleton width="70%" height="1rem" />
+                    </li>
+                }
+            </ul>
+        } @else {
+            <ul class="item-list">
+                @for (item of list.value(); track item.id) {
+                    <li class="item-row">{{ item.entitled }}</li>
+                }
+            </ul>
         }
-      </ul>
-    }
-  </nb-card-body>
+    </nb-card-body>
 </nb-card>

@@ -1,1 +1,20 @@
-:host { display: block; padding: 1rem; }
+:host {
+    display: block;
+    padding: 1rem;
+}
+
+.item-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item-row {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+
+    &--skeleton {
+        cursor: default;
+        pointer-events: none;
+    }
+}

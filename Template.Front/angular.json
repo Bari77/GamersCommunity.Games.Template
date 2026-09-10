@@ -55,7 +55,12 @@
               ]
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "prebundle": {
+              "exclude": ["@bari77/gc-ui"]
+            }
+          }
         },
         "esbuild": {
           "builder": "@angular/build:application",
