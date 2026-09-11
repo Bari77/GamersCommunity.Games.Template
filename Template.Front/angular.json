@@ -39,7 +39,10 @@
             "rebuildDelay": 0,
             "dev": true,
             "port": 4202,
-            "cacheExternalArtifacts": false
+            "cacheExternalArtifacts": false,
+            "prebundle": {
+              "exclude": ["@bari77/gc-ui", "@bari77/gc-widgets"]
+            }
           },
           "configurations": {
             "production": { "target": "template.front:esbuild:production", "dev": false },
@@ -55,12 +58,7 @@
               ]
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "prebundle": {
-              "exclude": ["@bari77/gc-ui"]
-            }
-          }
+          "defaultConfiguration": "development"
         },
         "esbuild": {
           "builder": "@angular/build:application",

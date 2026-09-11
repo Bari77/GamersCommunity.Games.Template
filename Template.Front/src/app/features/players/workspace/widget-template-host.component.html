@@ -1,0 +1,31 @@
+        <ng-template gcWidget="items">
+            @if (loadingItems()) {
+                <ul class="item-list" aria-busy="true">
+                    @for (row of rowPlaceholders(); track row) {
+                        <li class="item-row item-row--skeleton">
+                            <gc-skeleton width="70%" height="1rem" />
+                        </li>
+                    }
+                </ul>
+            } @else if (preview()) {
+                <ul class="item-list">
+                    <li class="item-row">Sample item A</li>
+                    <li class="item-row">Sample item B</li>
+                    <li class="item-row">Sample item C</li>
+                </ul>
+            } @else {
+                <ul class="item-list">
+                    @for (item of items(); track item.id) {
+                        <li class="item-row">{{ item.entitled }}</li>
+                    }
+                </ul>
+            }
+        </ng-template>
+
+        <ng-template gcWidget="notes" let-settings>
+            @if (settings['body']) {
+                <p class="notes">{{ settings['body'] }}</p>
+            } @else {
+                <p class="notes notes--empty">Open the gear to write something.</p>
+            }
+        </ng-template>

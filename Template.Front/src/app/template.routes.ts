@@ -3,4 +3,11 @@ import { HomeContainerComponent } from "./pages/home-container/home-container.co
 
 export const GAME_ROUTES: Routes = [
   { path: "", component: HomeContainerComponent },
+  {
+    path: "sheet",
+    loadComponent: () =>
+      import("./features/players/pages/player-sheet/player-sheet.component").then(
+        (m) => m.PlayerSheetComponent,
+      ),
+  },
 ];

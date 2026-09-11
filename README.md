@@ -47,6 +47,23 @@ npm install
 npm start
 ```
 
+## Customisable widget layout
+
+`@bari77/gc-widgets` ships the page rail, the gridster grid, the catalog picker and the settings
+form. The demo lives at `/template/sheet` and covers the three ways to plug a widget in: one
+rendered by a `gcWidget` template that reads the game API (`items`), one whose whole content comes
+from the generated settings form (`notes`), and one the package draws by itself (`gc-links`).
+
+Registry files live under `Template.Front/src/app/features/players/workspace/`; the default layout
+is `Template.Front/config/player/workspace.default.json`. A game swaps them for its own scopes
+(`guild`, `team`, …) and persists the workspace — WoW keeps it as JSON in `Player.LayoutJson`
+and reloads it with `parseWorkspace`. The demo only holds it in memory, so a refresh resets the layout.
+
+Validate or edit defaults with `@bari77/gc-workspace-editor` (`npm run workspace:validate`, `workspace:edit`).
+
+Widgets ship raw `.ts`, so the package must stay in the `skip` list of `federation.config.mjs` and in
+the `include` of `tsconfig.app.json` to go through the Angular compiler.
+
 ## Game-full
 
 ```powershell

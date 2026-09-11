@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "pages": [
+    {
+      "id": "home",
+      "title": "Home",
+      "locked": true,
+      "widgets": [
+        { "id": "w-items", "type": "items", "x": 0, "y": 0, "cols": 6, "rows": 4, "settings": {} },
+        {
+          "id": "w-notes",
+          "type": "notes",
+          "x": 6,
+          "y": 0,
+          "cols": 6,
+          "rows": 4,
+          "settings": {
+            "title": "Notes",
+            "body": "Drag a widget by its header, resize it from its bottom-right corner, and use the gear to configure it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "title": "Links",
+      "widgets": [{ "id": "w-links", "type": "gc-links", "x": 0, "y": 0, "cols": 6, "rows": 3, "settings": {} }]
+    }
+  ]
+}
