@@ -10,18 +10,32 @@ public class ConsumerWorker(IServiceScopeFactory scopeFactory, ILogger logger) :
     {
         using var scope = scopeFactory.CreateScope();
         var consumer = scope.ServiceProvider.GetRequiredService<TemplateServiceConsumer>();
-        try
+        var delay = TimeSpan.FromSeconds(3);
+        while (!ct.IsCancellationRequested)
         {
-            await consumer.StartListeningAsync(ct);
-        }
-        catch (OperationCanceledException) when (ct.IsCancellationRequested)
-        {
-            logger.Information("ConsumerWorker stopping (cancellation requested).");
-        }
-        catch (Exception ex)
-        {
-            logger.Fatal(ex, "Fatal RabbitMQ communication error. Exiting so the container can restart.");
-            throw;
+            try
+            {
+                await consumer.StartListeningAsync(ct);
+                return;
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                logger.Information("ConsumerWorker stopping (cancellation requested).");
+                return;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "RabbitMQ communication error. Retrying in {Delay}s.", delay.TotalSeconds);
+                try
+                {
+                    await Task.Delay(delay, ct);
+                }
+                catch (OperationCanceledException) when (ct.IsCancellationRequested)
+                {
+                    logger.Information("ConsumerWorker stopping (cancellation requested).");
+                    return;
+                }
+            }
         }
     }
 }
