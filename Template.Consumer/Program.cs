@@ -1,3 +1,4 @@
+using GamersCommunity.Core.Database;
 using GamersCommunity.Core.Logging;
 using GamersCommunity.Core.Rabbit;
 using GamersCommunity.Core.Services;
@@ -5,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Template.Consumer.Configuration;
 using Template.Consumer.Integration;
@@ -37,7 +37,7 @@ public class Program
                     {
                         var connectionString = context.Configuration.GetConnectionString("Database")
                             ?? throw new InvalidOperationException("Connection string 'Database' is missing.");
-                        options.UseSqlServer(connectionString);
+                        options.UseGamersCommunitySqlServer(connectionString);
                     });
                     services.AddSingleton<Serilog.ILogger>(sp => Log.Logger);
                     services.Scan(scan => scan
@@ -53,7 +53,7 @@ public class Program
                 });
 
             var host = builder.Build();
-            await ApplyDatabaseMigrationsAsync(host.Services);
+            await host.Services.ApplyMigrationsWithRetryAsync<TemplateDbContext>();
             var environment = host.Services.GetRequiredService<IHostEnvironment>();
             Log.Information("Started in {Environment} environment...", environment.EnvironmentName);
             await host.RunAsync();
@@ -61,13 +61,5 @@ public class Program
         catch (HostAbortedException ex) { Log.Fatal(ex, "Aborted."); }
         catch (Exception ex) { Log.Fatal(ex, "Terminated unexpectedly."); }
         finally { Log.Information("Stopped ..."); }
-    }
-
-    private static async Task ApplyDatabaseMigrationsAsync(IServiceProvider services)
-    {
-        using var scope = services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<TemplateDbContext>();
-        await dbContext.Database.MigrateAsync();
-        Log.Information("Database migrations applied.");
     }
 }
