@@ -6,10 +6,10 @@
     "start:mocks": "ng serve --port 4202",
     "start:api": "ng serve --port 4202 --configuration api",
     "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "i18n": "ng extract-i18n --build-target=template.front:esbuild --output-path src/locale --out-file source.json --format=json",
     "workspace:validate": "gc-workspace validate --all",
-    "workspace:validate:player": "gc-workspace validate --target player",
-    "workspace:edit": "gc-workspace edit",
-    "workspace:edit:player": "gc-workspace edit --target player"
+    "workspace:edit": "gc-workspace edit"
   },
   "gcWorkspace": {
     "defaultTarget": "player",
@@ -18,6 +18,7 @@
     }
   },
   "private": true,
+  "packageManager": "npm@11.13.0",
   "dependencies": {
     "@angular/animations": "21.2.17",
     "@angular/cdk": "21.0.6",
@@ -25,6 +26,7 @@
     "@angular/compiler": "21.2.17",
     "@angular/core": "21.2.17",
     "@angular/forms": "21.2.17",
+    "@angular/localize": "21.2.17",
     "@angular/platform-browser": "21.2.17",
     "@angular/router": "21.2.17",
     "@bari77/gc-msw": "0.8.31",
@@ -54,6 +56,7 @@
     "@angular/compiler-cli": "21.2.17",
     "@bari77/gc-workspace-editor": "0.8.31",
     "@softarc/native-federation-orchestrator": "^4.2.2",
+    "prettier": "^3.8.1",
     "typescript": "~5.9.2"
   },
   "msw": {
