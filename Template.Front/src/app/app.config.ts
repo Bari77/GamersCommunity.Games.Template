@@ -5,7 +5,8 @@ import { routes } from "./app.routes";
 import { providePlaygroundUi } from "./playground/provide-playground-ui";
 
 // When a PlayersService (resolve + load) exists, register provideGameRemoteKernel from
-// @bari77/gc-sdk — see DevKit docs/ARCHITECTURE.md « Game remote kernel ».
+// @bari77/gc-sdk on app.config AND on the exported federation routes parent providers —
+// see DevKit docs/ARCHITECTURE.md « Game remote kernel ». The shell never runs remote app.config.
 
 export const appConfig: ApplicationConfig = {
   providers: [
