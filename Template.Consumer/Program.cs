@@ -40,6 +40,8 @@ public class Program
                         options.UseGamersCommunitySqlServer(connectionString);
                     });
                     services.AddSingleton<Serilog.ILogger>(sp => Log.Logger);
+                    // When the game needs Platform mute / Whispers / friends checks:
+                    // services.AddPlatformRpcClients(); // GamersCommunity.Core.Platform
                     services.Scan(scan => scan
                         .FromAssembliesOf(typeof(AppSettings))
                         .AddClasses(c => c.AssignableTo<IBusService>())
