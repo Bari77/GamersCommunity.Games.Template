@@ -26,6 +26,8 @@ namespace Template.Database.Migrations
                     table.PrimaryKey("PK_Items", x => x.Id);
                 });
 
+            // Historical demo rows. New installs also get these from ItemsSeed (class-based).
+            // Do not add further catalog rows via migrations — use Seed/ classes instead.
             migrationBuilder.InsertData(
                 table: "Items",
                 columns: new[] { "Id", "CreationDate", "ModificationDate", "Entitled" },

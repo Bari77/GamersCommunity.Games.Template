@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Template.Consumer.Configuration;
 using Template.Consumer.Integration;
 using Template.Consumer.Services.Infra;
 using Template.Database.Context;
+using Template.Database.Seed;
 
 namespace Template.Consumer;
 
@@ -55,7 +57,12 @@ public class Program
                 });
 
             var host = builder.Build();
-            await host.Services.ApplyMigrationsWithRetryAsync<TemplateDbContext>();
+            await host.Services.ApplyMigrationsWithRetryAsync<TemplateDbContext>(
+                afterMigrate: async (db, sp, _) =>
+                {
+                    var seedLogger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("ReferenceDataSeed");
+                    await ReferenceDataSeed.EnsureAsync(db, seedLogger);
+                });
             var environment = host.Services.GetRequiredService<IHostEnvironment>();
             Log.Information("Started in {Environment} environment...", environment.EnvironmentName);
             await host.RunAsync();
