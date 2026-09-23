@@ -1,11 +1,8 @@
-using GamersCommunity.Core.Database;
+using GamersCommunity.Core.Hosting;
 using GamersCommunity.Core.Logging;
-using GamersCommunity.Core.Rabbit;
 using GamersCommunity.Core.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Template.Consumer.Configuration;
@@ -18,57 +15,34 @@ namespace Template.Consumer;
 
 public class Program
 {
-    public static async Task Main(string[] args)
-    {
-        Console.Title = "Template MicroService";
-        try
-        {
-            var builder = Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((context, logging) =>
-                {
-                    var loggerSettings = context.Configuration.GetSection("LoggerSettings").Get<LoggerSettings>() ?? new LoggerSettings();
-                    Logger.Initialize(loggerSettings, "Template MS", context.HostingEnvironment);
-                    logging.ClearProviders();
-                    Log.Information("Starting ...");
-                })
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddOptions<RabbitMQSettings>().Bind(context.Configuration.GetSection("RabbitMQ")).ValidateOnStart();
-                    services.AddOptions<AppSettings>().Bind(context.Configuration.GetSection("AppSettings")).ValidateOnStart();
-                    services.AddDbContext<TemplateDbContext>((sp, options) =>
-                    {
-                        var connectionString = context.Configuration.GetConnectionString("Database")
-                            ?? throw new InvalidOperationException("Connection string 'Database' is missing.");
-                        options.UseGamersCommunitySqlServer(connectionString);
-                    });
-                    services.AddSingleton<Serilog.ILogger>(sp => Log.Logger);
-                    // When the game needs Platform mute / Whispers / friends checks:
-                    // services.AddPlatformRpcClients(); // GamersCommunity.Core.Platform
-                    services.Scan(scan => scan
-                        .FromAssembliesOf(typeof(AppSettings))
-                        .AddClasses(c => c.AssignableTo<IBusService>())
-                        .AsImplementedInterfaces()
-                        .WithScopedLifetime());
-                    services.AddScoped<HealthService>();
-                    services.AddScoped<BusRouter>();
-                    services.AddScoped<TemplateServiceConsumer>();
-                    services.AddHostedService<ConsumerWorker>();
-                    services.AddHostedService<PlatformEventsSubscriber>();
-                });
-
-            var host = builder.Build();
-            await host.Services.ApplyMigrationsWithRetryAsync<TemplateDbContext>(
-                afterMigrate: async (db, sp, _) =>
-                {
-                    var seedLogger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("ReferenceDataSeed");
-                    await ReferenceDataSeed.EnsureAsync(db, seedLogger);
-                });
-            var environment = host.Services.GetRequiredService<IHostEnvironment>();
-            Log.Information("Started in {Environment} environment...", environment.EnvironmentName);
-            await host.RunAsync();
-        }
-        catch (HostAbortedException ex) { Log.Fatal(ex, "Aborted."); }
-        catch (Exception ex) { Log.Fatal(ex, "Terminated unexpectedly."); }
-        finally { Log.Information("Stopped ..."); }
-    }
+    public static Task Main(string[] args) =>
+        GamersCommunityConsumerHost.RunAsync<TemplateDbContext, TemplateServiceConsumer>(
+            args,
+            consoleTitle: "Template MicroService",
+            configureLogging: (context, logging) =>
+            {
+                var loggerSettings = context.Configuration.GetSection("LoggerSettings").Get<LoggerSettings>() ?? new LoggerSettings();
+                Logger.Initialize(loggerSettings, "Template MS", context.HostingEnvironment);
+                logging.ClearProviders();
+                Log.Information("Starting ...");
+            },
+            configureServices: (context, services) =>
+            {
+                services.AddOptions<AppSettings>().Bind(context.Configuration.GetSection("AppSettings")).ValidateOnStart();
+                // When the game needs Platform mute / Whispers / friends checks:
+                // services.AddPlatformRpcClients(); // GamersCommunity.Core.Platform
+                // services.AddRealtimeEventPublisher();
+                services.Scan(scan => scan
+                    .FromAssembliesOf(typeof(AppSettings))
+                    .AddClasses(c => c.AssignableTo<IBusService>())
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
+                services.AddScoped<HealthService>();
+                services.AddHostedService<PlatformEventsSubscriber>();
+            },
+            afterMigrate: async (db, sp, _) =>
+            {
+                var seedLogger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("ReferenceDataSeed");
+                await ReferenceDataSeed.EnsureAsync(db, seedLogger);
+            });
 }
