@@ -77,6 +77,10 @@ npm run start:api
 - Front: http://localhost:4202
 - SQL: `127.0.0.1,14333` / sa / Your_password123 (Trust server certificate)
 
+### Gateway stance
+
+The Template microservice (`Id: template`, queue `template_queue`, demo `Items` List/Get) is **not** registered on the main **GamersCommunity.Gateway**. Local game-full uses the compose **DevGateway** image only. When you promote a real game from this scaffold, add its microservice block to Gateway `appsettings*.json` and refresh `contracts/federation.contract.json` — do not expect `template` routes on shared Platform/Gateway stacks.
+
 ## Shell integration
 
 See `contracts/federation.contract.json` and `contracts/openapi.yaml`.
