@@ -1,5 +1,10 @@
 import { Component, computed, inject, resource, signal } from "@angular/core";
-import { parseWorkspace, WidgetWorkspace, WidgetWorkspaceComponent } from "@bari77/gc-widgets";
+import {
+    bindWorkspacePageQuery,
+    parseWorkspace,
+    WidgetWorkspace,
+    WidgetWorkspaceComponent,
+} from "@bari77/gc-widgets";
 import defaultLayout from "../../../../../../config/player/workspace.default.json";
 import { firstValueFrom } from "rxjs";
 import { ItemDto } from "../../../items/item.dto";
@@ -26,6 +31,7 @@ export class PlayerSheetComponent {
     public readonly rowPlaceholders = [0, 1, 2, 3, 4];
 
     public readonly editing = signal(false);
+    public readonly activePageId = bindWorkspacePageQuery();
 
     public readonly items = resource({
         loader: () => firstValueFrom(this.itemsService.list()),
