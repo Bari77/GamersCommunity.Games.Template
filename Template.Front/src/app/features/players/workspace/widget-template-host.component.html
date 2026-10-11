@@ -1,5 +1,5 @@
         <ng-template gcWidget="items">
-            @if (loadingItems()) {
+            @if (loadingItems() && !preview()) {
                 <ul class="item-list" aria-busy="true">
                     @for (row of rowPlaceholders(); track row) {
                         <li class="item-row item-row--skeleton">
@@ -7,15 +7,9 @@
                         </li>
                     }
                 </ul>
-            } @else if (preview()) {
-                <ul class="item-list">
-                    <li class="item-row">Sample item A</li>
-                    <li class="item-row">Sample item B</li>
-                    <li class="item-row">Sample item C</li>
-                </ul>
             } @else {
                 <ul class="item-list">
-                    @for (item of items(); track item.id) {
+                    @for (item of viewItems(); track item.id) {
                         <li class="item-row">{{ item.entitled }}</li>
                     }
                 </ul>

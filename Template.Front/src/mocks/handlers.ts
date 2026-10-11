@@ -1,6 +1,6 @@
 import { createGatewayListHandler } from "@bari77/gc-msw";
 import { environment } from "../environments/environment";
-import { mockItems } from "./data/items";
+import { mockItems } from "./catalog/items";
 
 export const handlers = [
   createGatewayListHandler({
