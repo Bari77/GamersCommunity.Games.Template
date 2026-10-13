@@ -17,7 +17,5 @@ export class TemplateWidgetTemplateHostComponent {
     public readonly items = input<{ id: number; entitled: string }[]>([]);
     public readonly rowPlaceholders = input([0, 1, 2, 3, 4]);
 
-    protected readonly viewItems = computed(() =>
-        this.preview() ? WORKSPACE_PREVIEW_ITEMS : this.items(),
-    );
+    protected readonly viewItems = computed(() => (this.preview() ? WORKSPACE_PREVIEW_ITEMS : this.items()));
 }

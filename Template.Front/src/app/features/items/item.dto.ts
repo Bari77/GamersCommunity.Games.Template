@@ -1,6 +1,6 @@
 export interface ItemDto {
-  id: number;
-  entitled: string;
-  creationDate?: string;
-  modificationDate?: string;
+    id: number;
+    entitled: string;
+    creationDate?: string;
+    modificationDate?: string;
 }

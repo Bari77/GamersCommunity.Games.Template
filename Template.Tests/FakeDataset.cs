@@ -1,6 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Template.Database.Context;
 using Template.Database.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Template.Tests;
 

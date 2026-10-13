@@ -11,17 +11,17 @@ import { providePlaygroundUi } from "./playground/provide-playground-ui";
 // see DevKit docs/ARCHITECTURE.md « Game remote kernel ». The shell never runs remote app.config.
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    {
-      provide: GC_ENVIRONMENT,
-      useValue: {
-        apiUrl: environment.apiUrl,
-        assetsBaseUrl: environment.assetsBaseUrl ?? "",
-      },
-    },
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
-    provideHttpClient(),
-    providePlaygroundUi("cosmic"),
-  ],
+    providers: [
+        {
+            provide: GC_ENVIRONMENT,
+            useValue: {
+                apiUrl: environment.apiUrl,
+                assetsBaseUrl: environment.assetsBaseUrl ?? "",
+            },
+        },
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideRouter(routes),
+        provideHttpClient(),
+        providePlaygroundUi("cosmic"),
+    ],
 };

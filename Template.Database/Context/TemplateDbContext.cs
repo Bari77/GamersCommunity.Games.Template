@@ -1,5 +1,5 @@
-using Template.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Template.Database.Models;
 
 namespace Template.Database.Context;
 

@@ -16,12 +16,12 @@ import { ResourceUtils } from "../../shared/utils/resource.utils";
 export class HomeContainerComponent {
     public readonly rowPlaceholders = [0, 1, 2, 3, 4];
 
-    private readonly itemsService = inject(ItemsService);
-
     public readonly list = resource({
         loader: () => firstValueFrom(this.itemsService.list()),
         defaultValue: [] as Item[],
     });
 
     public readonly loading = computed(() => ResourceUtils.isPending(this.list));
+
+    private readonly itemsService = inject(ItemsService);
 }

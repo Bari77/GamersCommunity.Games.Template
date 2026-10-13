@@ -1,8 +1,8 @@
 import { Environment } from "@core/models/environment.model";
 
 export const environment: Environment = {
-  production: false,
-  apiUrl: "http://localhost:8082/api",
-  useMocks: true,
-  assetsBaseUrl: "https://host.bariserv.net/GamersCommunity",
+    production: false,
+    apiUrl: "http://localhost:8082/api",
+    useMocks: true,
+    assetsBaseUrl: "https://host.bariserv.net/GamersCommunity",
 };

@@ -1,10 +1,5 @@
 import { Component, computed, inject, resource, signal } from "@angular/core";
-import {
-    bindWorkspacePageQuery,
-    parseWorkspace,
-    WidgetWorkspace,
-    WidgetWorkspaceComponent,
-} from "@bari77/gc-widgets";
+import { bindWorkspacePageQuery, parseWorkspace, WidgetWorkspace, WidgetWorkspaceComponent } from "@bari77/gc-widgets";
 import defaultLayout from "../../../../../../config/player/workspace.default.json";
 import { firstValueFrom } from "rxjs";
 import { Item } from "../../../items/item.model";

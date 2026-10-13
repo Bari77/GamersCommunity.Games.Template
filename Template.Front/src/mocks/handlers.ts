@@ -3,10 +3,10 @@ import { environment } from "../environments/environment";
 import { mockItems } from "./catalog/items";
 
 export const handlers = [
-  createGatewayListHandler({
-    apiUrl: environment.apiUrl,
-    microservice: "template",
-    resource: "Items",
-    data: mockItems,
-  }),
+    createGatewayListHandler({
+        apiUrl: environment.apiUrl,
+        microservice: "template",
+        resource: "Items",
+        data: mockItems,
+    }),
 ];

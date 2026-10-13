@@ -1,140 +1,140 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "cli": {
-    "analytics": false
-  },
-  "projects": {
-    "template.front": {
-      "projectType": "application",
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "tpl",
-      "architect": {
-        "build": {
-          "builder": "@angular-architects/native-federation-v4:build",
-          "options": {
-            "cacheExternalArtifacts": false
-          },
-          "configurations": {
-            "production": {
-              "target": "template.front:esbuild:production"
-            },
-            "development": {
-              "target": "template.front:esbuild:development",
-              "dev": true
-            },
-            "api": {
-              "target": "template.front:esbuild:api",
-              "dev": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-architects/native-federation-v4:build",
-          "options": {
-            "target": "template.front:serve-original:development",
-            "rebuildDelay": 500,
-            "cacheExternalArtifacts": false,
-            "dev": true,
-            "devServer": true,
-            "port": 0
-          },
-          "configurations": {
-            "api": {
-              "target": "template.front:serve-original:api",
-              "dev": true,
-              "devServer": true
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-          "options": {
-            "buildTarget": "template.front:esbuild"
-          }
-        },
-        "esbuild": {
-          "builder": "@angular/build:application",
-          "options": {
-            "browser": "src/main.ts",
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "localize": true,
-            "i18nMissingTranslation": "error",
-            "assets": [{ "glob": "**/*", "input": "public" }],
-            "styles": [
-              "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
-              "node_modules/@bari77/gc-theme/src/global.scss",
-              "src/styles.scss"
-            ],
-            "polyfills": ["zone.js", "@angular/localize/init", "es-module-shims"]
-          },
-          "configurations": {
-            "production": { "outputHashing": "all" },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "i18nMissingTranslation": "warning"
-            },
-            "api": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "i18nMissingTranslation": "warning",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.api.ts"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "cli": {
+        "analytics": false
+    },
+    "projects": {
+        "template.front": {
+            "projectType": "application",
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "tpl",
+            "architect": {
+                "build": {
+                    "builder": "@angular-architects/native-federation-v4:build",
+                    "options": {
+                        "cacheExternalArtifacts": false
+                    },
+                    "configurations": {
+                        "production": {
+                            "target": "template.front:esbuild:production"
+                        },
+                        "development": {
+                            "target": "template.front:esbuild:development",
+                            "dev": true
+                        },
+                        "api": {
+                            "target": "template.front:esbuild:api",
+                            "dev": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-architects/native-federation-v4:build",
+                    "options": {
+                        "target": "template.front:serve-original:development",
+                        "rebuildDelay": 500,
+                        "cacheExternalArtifacts": false,
+                        "dev": true,
+                        "devServer": true,
+                        "port": 0
+                    },
+                    "configurations": {
+                        "api": {
+                            "target": "template.front:serve-original:api",
+                            "dev": true,
+                            "devServer": true
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular/build:extract-i18n",
+                    "options": {
+                        "buildTarget": "template.front:esbuild"
+                    }
+                },
+                "esbuild": {
+                    "builder": "@angular/build:application",
+                    "options": {
+                        "browser": "src/main.ts",
+                        "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
+                        "localize": true,
+                        "i18nMissingTranslation": "error",
+                        "assets": [{ "glob": "**/*", "input": "public" }],
+                        "styles": [
+                            "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
+                            "node_modules/@bari77/gc-theme/src/global.scss",
+                            "src/styles.scss"
+                        ],
+                        "polyfills": ["zone.js", "@angular/localize/init", "es-module-shims"]
+                    },
+                    "configurations": {
+                        "production": { "outputHashing": "all" },
+                        "development": {
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "i18nMissingTranslation": "warning"
+                        },
+                        "api": {
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "i18nMissingTranslation": "warning",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.api.ts"
+                                }
+                            ]
+                        },
+                        "fr": {
+                            "localize": ["fr"]
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve-original": {
+                    "builder": "@angular/build:dev-server",
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "template.front:esbuild:production"
+                        },
+                        "development": {
+                            "buildTarget": "template.front:esbuild:development"
+                        },
+                        "api": {
+                            "buildTarget": "template.front:esbuild:api"
+                        },
+                        "fr": {
+                            "buildTarget": "template.front:esbuild:development,fr"
+                        }
+                    },
+                    "defaultConfiguration": "development",
+                    "options": {
+                        "port": 4202,
+                        "prebundle": {
+                            "exclude": [
+                                "@bari77/gc-playground",
+                                "@bari77/gc-sdk",
+                                "@bari77/gc-msw",
+                                "@bari77/gc-widgets"
+                            ]
+                        }
+                    }
                 }
-              ]
             },
-            "fr": {
-              "localize": ["fr"]
+            "i18n": {
+                "sourceLocale": "en-US",
+                "locales": {
+                    "fr": {
+                        "translation": "src/locale/source.fr.json"
+                    }
+                }
             }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-original": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "template.front:esbuild:production"
-            },
-            "development": {
-              "buildTarget": "template.front:esbuild:development"
-            },
-            "api": {
-              "buildTarget": "template.front:esbuild:api"
-            },
-            "fr": {
-              "buildTarget": "template.front:esbuild:development,fr"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "port": 4202,
-            "prebundle": {
-              "exclude": [
-                "@bari77/gc-playground",
-                "@bari77/gc-sdk",
-                "@bari77/gc-msw",
-                "@bari77/gc-widgets"
-              ]
-            }
-          }
         }
-      },
-      "i18n": {
-        "sourceLocale": "en-US",
-        "locales": {
-          "fr": {
-            "translation": "src/locale/source.fr.json"
-          }
-        }
-      }
     }
-  }
 }

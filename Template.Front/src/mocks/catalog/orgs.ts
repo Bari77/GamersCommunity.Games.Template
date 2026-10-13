@@ -1,5 +1,6 @@
 import { mockUuid } from "./ids";
 import { persona } from "./personas";
+import { TemplateOrgSheet } from "./template-org-sheet";
 
 export const ORG_PUBLIC_ID = mockUuid("template:org:Demo Company");
 
@@ -9,14 +10,6 @@ export interface TemplateOrgMember {
     nickname: string;
     discriminator: string;
     rank: string;
-}
-
-export interface TemplateOrgSheet {
-    publicId: string;
-    entitled: string;
-    discriminator: string;
-    sentence: string;
-    members: TemplateOrgMember[];
 }
 
 function member(nickname: string, rank: string): TemplateOrgMember {
