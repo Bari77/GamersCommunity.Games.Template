@@ -7,7 +7,7 @@ import {
 } from "@bari77/gc-widgets";
 import defaultLayout from "../../../../../../config/player/workspace.default.json";
 import { firstValueFrom } from "rxjs";
-import { ItemDto } from "../../../items/item.dto";
+import { Item } from "../../../items/item.model";
 import { ItemsService } from "../../../items/items.service";
 import {
     PLAYER_WIDGET_CATALOG,
@@ -35,7 +35,7 @@ export class PlayerSheetComponent {
 
     public readonly items = resource({
         loader: () => firstValueFrom(this.itemsService.list()),
-        defaultValue: [] as ItemDto[],
+        defaultValue: [] as Item[],
     });
 
     public readonly loadingItems = computed(() => ResourceUtils.isPending(this.items));

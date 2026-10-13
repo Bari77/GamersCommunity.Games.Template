@@ -62,7 +62,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "localize": true,
-            "i18nMissingTranslation": "warning",
+            "i18nMissingTranslation": "error",
             "assets": [{ "glob": "**/*", "input": "public" }],
             "styles": [
               "node_modules/@nebular/theme/styles/prebuilt/cosmic.css",
@@ -73,11 +73,17 @@
           },
           "configurations": {
             "production": { "outputHashing": "all" },
-            "development": { "optimization": false, "extractLicenses": false, "sourceMap": true },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "i18nMissingTranslation": "warning"
+            },
             "api": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
+              "i18nMissingTranslation": "warning",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

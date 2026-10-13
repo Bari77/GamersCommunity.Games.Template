@@ -2,7 +2,7 @@ import { Component, computed, inject, resource } from "@angular/core";
 import { NbCardModule } from "@nebular/theme";
 import { SkeletonComponent } from "@bari77/gc-ui";
 import { firstValueFrom } from "rxjs";
-import { ItemDto } from "../../features/items/item.dto";
+import { Item } from "../../features/items/item.model";
 import { ItemsService } from "../../features/items/items.service";
 import { ResourceUtils } from "../../shared/utils/resource.utils";
 
@@ -20,7 +20,7 @@ export class HomeContainerComponent {
 
     public readonly list = resource({
         loader: () => firstValueFrom(this.itemsService.list()),
-        defaultValue: [] as ItemDto[],
+        defaultValue: [] as Item[],
     });
 
     public readonly loading = computed(() => ResourceUtils.isPending(this.list));

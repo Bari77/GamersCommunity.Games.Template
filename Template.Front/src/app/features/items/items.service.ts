@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../../environments/environment";
-import { ItemDto } from "./item.dto";
+import { BaseService } from "@shared/services/base.service";
+import { Item } from "./item.model";
 
 @Injectable({ providedIn: "root" })
-export class ItemsService {
-  private readonly url = `${environment.apiUrl}/template/Items`;
+export class ItemsService extends BaseService {
+  public constructor() {
+    super("/template/Items");
+  }
 
-  constructor(private readonly http: HttpClient) {}
-
-  list(): Observable<ItemDto[]> {
-    return this.http.get<ItemDto[]>(this.url);
+  public list(): Observable<Item[]> {
+    return this.getAll(Item);
   }
 }
