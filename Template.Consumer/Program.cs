@@ -22,7 +22,7 @@ public class Program
             configureLogging: (context, logging) =>
             {
                 var loggerSettings = context.Configuration.GetSection("LoggerSettings").Get<LoggerSettings>() ?? new LoggerSettings();
-                Logger.Initialize(loggerSettings, "Template MS", context.HostingEnvironment);
+                Logger.Initialize(loggerSettings, "Template MS", context.HostingEnvironment, context.Configuration);
                 logging.ClearProviders();
                 Log.Information("Starting ...");
             },
